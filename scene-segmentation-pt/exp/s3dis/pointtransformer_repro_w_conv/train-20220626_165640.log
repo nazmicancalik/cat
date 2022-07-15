@@ -1,0 +1,3 @@
+wandb: Currently logged in as: nzmcnclk (cgat). Use `wandb login --relogin` to force relogin
+wandb: WARNING Path wandb/runs/wandb/ wasn't writable, using system temp directory.
+wandb: WARNING Path wandb/runs/wandb/ wasn't writable, using system temp directory

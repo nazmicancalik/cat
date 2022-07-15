@@ -1,0 +1,2 @@
+nohup poetry run python thesis/main.py &
+watch cat nohup.out

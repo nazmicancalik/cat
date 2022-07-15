@@ -1,0 +1,1143 @@
+[2022-07-05 11:17:39,172 INFO train.py line 131 108439] arch: pointtransformer_seg_repro
+base_lr: 0.5
+batch_size: 4
+batch_size_test: 4
+batch_size_val: 4
+classes: 13
+data_name: s3dis
+data_root: dataset/s3dis/trainval_fullarea
+dist_backend: nccl
+dist_url: tcp://localhost:8888
+distributed: False
+drop_rate: 0.5
+epochs: 100
+eval_freq: 1
+evaluate: True
+fea_dim: 6
+ignore_label: 255
+loop: 30
+manual_seed: 7777
+model_path: None
+momentum: 0.9
+multiplier: 0.1
+multiprocessing_distributed: False
+names_path: data/s3dis/s3dis_names.txt
+ngpus_per_node: 1
+print_freq: 1
+rank: 0
+resume: None
+save_folder: None
+save_freq: 1
+save_path: exp/s3dis/pointtransformer_repro
+split: val
+start_epoch: 0
+step_epoch: 30
+sync_bn: False
+test_area: 5
+test_gpu: [0]
+test_list: dataset/s3dis/list/val5.txt
+test_list_full: dataset/s3dis/list/val5_full.txt
+test_workers: 4
+train_gpu: [0]
+use_xyz: True
+voxel_max: 80000
+voxel_size: 0.04
+weight: None
+weight_decay: 0.0001
+workers: 16
+world_size: 1
+[2022-07-05 11:17:39,172 INFO train.py line 132 108439] => creating model ...
+[2022-07-05 11:17:39,172 INFO train.py line 133 108439] Classes: 13
+[2022-07-05 11:17:39,172 INFO train.py line 134 108439] PointTransformerSeg(
+  (enc1): Sequential(
+    (0): TransitionDown(
+      (linear): Linear(in_features=6, out_features=32, bias=False)
+      (bn): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (1): PointTransformerBlock(
+      (linear1): Linear(in_features=32, out_features=32, bias=False)
+      (bn1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=32, out_features=32, bias=True)
+        (linear_k): Linear(in_features=32, out_features=32, bias=True)
+        (linear_v): Linear(in_features=32, out_features=32, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=32, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=32, out_features=4, bias=True)
+          (3): BatchNorm1d(4, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=4, out_features=4, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=32, out_features=32, bias=False)
+      (bn3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (enc2): Sequential(
+    (0): TransitionDown(
+      (linear): Linear(in_features=35, out_features=64, bias=False)
+      (pool): MaxPool1d(kernel_size=16, stride=16, padding=0, dilation=1, ceil_mode=False)
+      (bn): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (1): PointTransformerBlock(
+      (linear1): Linear(in_features=64, out_features=64, bias=False)
+      (bn1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=64, out_features=64, bias=True)
+        (linear_k): Linear(in_features=64, out_features=64, bias=True)
+        (linear_v): Linear(in_features=64, out_features=64, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=64, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=64, out_features=8, bias=True)
+          (3): BatchNorm1d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=8, out_features=8, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=64, out_features=64, bias=False)
+      (bn3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): PointTransformerBlock(
+      (linear1): Linear(in_features=64, out_features=64, bias=False)
+      (bn1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=64, out_features=64, bias=True)
+        (linear_k): Linear(in_features=64, out_features=64, bias=True)
+        (linear_v): Linear(in_features=64, out_features=64, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=64, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=64, out_features=8, bias=True)
+          (3): BatchNorm1d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=8, out_features=8, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=64, out_features=64, bias=False)
+      (bn3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (enc3): Sequential(
+    (0): TransitionDown(
+      (linear): Linear(in_features=67, out_features=128, bias=False)
+      (pool): MaxPool1d(kernel_size=16, stride=16, padding=0, dilation=1, ceil_mode=False)
+      (bn): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (1): PointTransformerBlock(
+      (linear1): Linear(in_features=128, out_features=128, bias=False)
+      (bn1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=128, out_features=128, bias=True)
+        (linear_k): Linear(in_features=128, out_features=128, bias=True)
+        (linear_v): Linear(in_features=128, out_features=128, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=128, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=128, out_features=16, bias=True)
+          (3): BatchNorm1d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=16, out_features=16, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=128, out_features=128, bias=False)
+      (bn3): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): PointTransformerBlock(
+      (linear1): Linear(in_features=128, out_features=128, bias=False)
+      (bn1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=128, out_features=128, bias=True)
+        (linear_k): Linear(in_features=128, out_features=128, bias=True)
+        (linear_v): Linear(in_features=128, out_features=128, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=128, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=128, out_features=16, bias=True)
+          (3): BatchNorm1d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=16, out_features=16, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=128, out_features=128, bias=False)
+      (bn3): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (3): PointTransformerBlock(
+      (linear1): Linear(in_features=128, out_features=128, bias=False)
+      (bn1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=128, out_features=128, bias=True)
+        (linear_k): Linear(in_features=128, out_features=128, bias=True)
+        (linear_v): Linear(in_features=128, out_features=128, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=128, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=128, out_features=16, bias=True)
+          (3): BatchNorm1d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=16, out_features=16, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=128, out_features=128, bias=False)
+      (bn3): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (enc4): Sequential(
+    (0): TransitionDown(
+      (linear): Linear(in_features=131, out_features=256, bias=False)
+      (pool): MaxPool1d(kernel_size=16, stride=16, padding=0, dilation=1, ceil_mode=False)
+      (bn): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (1): PointTransformerBlock(
+      (linear1): Linear(in_features=256, out_features=256, bias=False)
+      (bn1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=256, out_features=256, bias=True)
+        (linear_k): Linear(in_features=256, out_features=256, bias=True)
+        (linear_v): Linear(in_features=256, out_features=256, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=256, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=256, out_features=32, bias=True)
+          (3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=32, out_features=32, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=256, out_features=256, bias=False)
+      (bn3): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): PointTransformerBlock(
+      (linear1): Linear(in_features=256, out_features=256, bias=False)
+      (bn1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=256, out_features=256, bias=True)
+        (linear_k): Linear(in_features=256, out_features=256, bias=True)
+        (linear_v): Linear(in_features=256, out_features=256, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=256, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=256, out_features=32, bias=True)
+          (3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=32, out_features=32, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=256, out_features=256, bias=False)
+      (bn3): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (3): PointTransformerBlock(
+      (linear1): Linear(in_features=256, out_features=256, bias=False)
+      (bn1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=256, out_features=256, bias=True)
+        (linear_k): Linear(in_features=256, out_features=256, bias=True)
+        (linear_v): Linear(in_features=256, out_features=256, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=256, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=256, out_features=32, bias=True)
+          (3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=32, out_features=32, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=256, out_features=256, bias=False)
+      (bn3): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (4): PointTransformerBlock(
+      (linear1): Linear(in_features=256, out_features=256, bias=False)
+      (bn1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=256, out_features=256, bias=True)
+        (linear_k): Linear(in_features=256, out_features=256, bias=True)
+        (linear_v): Linear(in_features=256, out_features=256, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=256, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=256, out_features=32, bias=True)
+          (3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=32, out_features=32, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=256, out_features=256, bias=False)
+      (bn3): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (5): PointTransformerBlock(
+      (linear1): Linear(in_features=256, out_features=256, bias=False)
+      (bn1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=256, out_features=256, bias=True)
+        (linear_k): Linear(in_features=256, out_features=256, bias=True)
+        (linear_v): Linear(in_features=256, out_features=256, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=256, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=256, out_features=32, bias=True)
+          (3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=32, out_features=32, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=256, out_features=256, bias=False)
+      (bn3): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (enc5): Sequential(
+    (0): TransitionDown(
+      (linear): Linear(in_features=259, out_features=512, bias=False)
+      (pool): MaxPool1d(kernel_size=16, stride=16, padding=0, dilation=1, ceil_mode=False)
+      (bn): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (1): PointTransformerBlock(
+      (linear1): Linear(in_features=512, out_features=512, bias=False)
+      (bn1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=512, out_features=512, bias=True)
+        (linear_k): Linear(in_features=512, out_features=512, bias=True)
+        (linear_v): Linear(in_features=512, out_features=512, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=512, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=512, out_features=64, bias=True)
+          (3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=64, out_features=64, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=512, out_features=512, bias=False)
+      (bn3): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+    (2): PointTransformerBlock(
+      (linear1): Linear(in_features=512, out_features=512, bias=False)
+      (bn1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=512, out_features=512, bias=True)
+        (linear_k): Linear(in_features=512, out_features=512, bias=True)
+        (linear_v): Linear(in_features=512, out_features=512, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=512, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=512, out_features=64, bias=True)
+          (3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=64, out_features=64, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=512, out_features=512, bias=False)
+      (bn3): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (dec5): Sequential(
+    (0): TransitionUp(
+      (linear1): Sequential(
+        (0): Linear(in_features=1024, out_features=512, bias=True)
+        (1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU(inplace=True)
+      )
+      (linear2): Sequential(
+        (0): Linear(in_features=512, out_features=512, bias=True)
+        (1): ReLU(inplace=True)
+      )
+    )
+    (1): PointTransformerBlock(
+      (linear1): Linear(in_features=512, out_features=512, bias=False)
+      (bn1): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=512, out_features=512, bias=True)
+        (linear_k): Linear(in_features=512, out_features=512, bias=True)
+        (linear_v): Linear(in_features=512, out_features=512, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=512, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=512, out_features=64, bias=True)
+          (3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=64, out_features=64, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=512, out_features=512, bias=False)
+      (bn3): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (dec4): Sequential(
+    (0): TransitionUp(
+      (linear1): Sequential(
+        (0): Linear(in_features=256, out_features=256, bias=True)
+        (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU(inplace=True)
+      )
+      (linear2): Sequential(
+        (0): Linear(in_features=512, out_features=256, bias=True)
+        (1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU(inplace=True)
+      )
+    )
+    (1): PointTransformerBlock(
+      (linear1): Linear(in_features=256, out_features=256, bias=False)
+      (bn1): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=256, out_features=256, bias=True)
+        (linear_k): Linear(in_features=256, out_features=256, bias=True)
+        (linear_v): Linear(in_features=256, out_features=256, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=256, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=256, out_features=32, bias=True)
+          (3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=32, out_features=32, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=256, out_features=256, bias=False)
+      (bn3): BatchNorm1d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (dec3): Sequential(
+    (0): TransitionUp(
+      (linear1): Sequential(
+        (0): Linear(in_features=128, out_features=128, bias=True)
+        (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU(inplace=True)
+      )
+      (linear2): Sequential(
+        (0): Linear(in_features=256, out_features=128, bias=True)
+        (1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU(inplace=True)
+      )
+    )
+    (1): PointTransformerBlock(
+      (linear1): Linear(in_features=128, out_features=128, bias=False)
+      (bn1): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=128, out_features=128, bias=True)
+        (linear_k): Linear(in_features=128, out_features=128, bias=True)
+        (linear_v): Linear(in_features=128, out_features=128, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=128, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=128, out_features=16, bias=True)
+          (3): BatchNorm1d(16, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=16, out_features=16, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=128, out_features=128, bias=False)
+      (bn3): BatchNorm1d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (dec2): Sequential(
+    (0): TransitionUp(
+      (linear1): Sequential(
+        (0): Linear(in_features=64, out_features=64, bias=True)
+        (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU(inplace=True)
+      )
+      (linear2): Sequential(
+        (0): Linear(in_features=128, out_features=64, bias=True)
+        (1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU(inplace=True)
+      )
+    )
+    (1): PointTransformerBlock(
+      (linear1): Linear(in_features=64, out_features=64, bias=False)
+      (bn1): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=64, out_features=64, bias=True)
+        (linear_k): Linear(in_features=64, out_features=64, bias=True)
+        (linear_v): Linear(in_features=64, out_features=64, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=64, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=64, out_features=8, bias=True)
+          (3): BatchNorm1d(8, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=8, out_features=8, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=64, out_features=64, bias=False)
+      (bn3): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (dec1): Sequential(
+    (0): TransitionUp(
+      (linear1): Sequential(
+        (0): Linear(in_features=32, out_features=32, bias=True)
+        (1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU(inplace=True)
+      )
+      (linear2): Sequential(
+        (0): Linear(in_features=64, out_features=32, bias=True)
+        (1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (2): ReLU(inplace=True)
+      )
+    )
+    (1): PointTransformerBlock(
+      (linear1): Linear(in_features=32, out_features=32, bias=False)
+      (bn1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (transformer2): PointTransformerLayer(
+        (linear_q): Linear(in_features=32, out_features=32, bias=True)
+        (linear_k): Linear(in_features=32, out_features=32, bias=True)
+        (linear_v): Linear(in_features=32, out_features=32, bias=True)
+        (linear_p): Sequential(
+          (0): Linear(in_features=3, out_features=3, bias=True)
+          (1): BatchNorm1d(3, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (2): ReLU(inplace=True)
+          (3): Linear(in_features=3, out_features=32, bias=True)
+        )
+        (linear_w): Sequential(
+          (0): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (1): ReLU(inplace=True)
+          (2): Linear(in_features=32, out_features=4, bias=True)
+          (3): BatchNorm1d(4, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+          (4): ReLU(inplace=True)
+          (5): Linear(in_features=4, out_features=4, bias=True)
+        )
+        (softmax): Softmax(dim=1)
+      )
+      (bn2): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (linear3): Linear(in_features=32, out_features=32, bias=False)
+      (bn3): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (relu): ReLU(inplace=True)
+    )
+  )
+  (cls): Sequential(
+    (0): Linear(in_features=32, out_features=32, bias=True)
+    (1): BatchNorm1d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU(inplace=True)
+    (3): Linear(in_features=32, out_features=13, bias=True)
+  )
+)
+[2022-07-05 11:17:42,642 INFO train.py line 180 108439] train_data samples: '6120'
+Totally 204 samples in train set.
+Totally 68 samples in val set.
+Totally 204 samples in train set.
+Totally 68 samples in val set.
+/data/workspace/anaconda3/lib/python3.9/site-packages/torch/nn/functional.py:652: UserWarning: Named tensors and all their associated APIs are an experimental feature and subject to change. Please do not use them for anything important until they are released as stable. (Triggered internally at  /opt/conda/conda-bld/pytorch_1623448255797/work/c10/core/TensorImpl.h:1156.)
+  return torch.max_pool1d(input, kernel_size, stride, padding, dilation, ceil_mode)
+[2022-07-05 11:17:48,639 INFO train.py line 299 108439] Epoch: [1/100][1/1530] Data 3.642 (3.642) Batch 5.995 (5.995) Remain 254:46:01 Loss 2.6927 Accuracy 0.0526.
+[2022-07-05 11:17:56,591 INFO train.py line 299 108439] Epoch: [1/100][2/1530] Data 6.823 (5.233) Batch 7.952 (6.974) Remain 296:22:12 Loss 2.3915 Accuracy 0.2081.
+
+
+point transformer layer x before weird operation:  torch.Size([110327, 32]) tensor([  6132,  47015,  93570, 110327], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([110327, 32])
+
+
+point transformer layer x before weird operation:  torch.Size([27580, 64]) tensor([ 1533, 11753, 23391, 27580], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([27580, 64])
+
+
+point transformer layer x before weird operation:  torch.Size([27580, 64]) tensor([ 1533, 11753, 23391, 27580], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([27580, 64])
+
+
+point transformer layer x before weird operation:  torch.Size([6894, 128]) tensor([ 383, 2938, 5847, 6894], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([6894, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([6894, 128]) tensor([ 383, 2938, 5847, 6894], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([6894, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([6894, 128]) tensor([ 383, 2938, 5847, 6894], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([6894, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([1721, 256]) tensor([  95,  733, 1460, 1721], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([1721, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([1721, 256]) tensor([  95,  733, 1460, 1721], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([1721, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([1721, 256]) tensor([  95,  733, 1460, 1721], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([1721, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([1721, 256]) tensor([  95,  733, 1460, 1721], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([1721, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([1721, 256]) tensor([  95,  733, 1460, 1721], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([1721, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([428, 512]) tensor([ 23, 182, 363, 428], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([428, 512])
+
+
+point transformer layer x before weird operation:  torch.Size([428, 512]) tensor([ 23, 182, 363, 428], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([428, 512])
+
+
+point transformer layer x before weird operation:  torch.Size([428, 512]) tensor([ 23, 182, 363, 428], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([428, 512])
+
+
+point transformer layer x before weird operation:  torch.Size([1721, 256]) tensor([  95,  733, 1460, 1721], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([1721, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([6894, 128]) tensor([ 383, 2938, 5847, 6894], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([6894, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([27580, 64]) tensor([ 1533, 11753, 23391, 27580], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([27580, 64])
+
+
+point transformer layer x before weird operation:  torch.Size([110327, 32]) tensor([  6132,  47015,  93570, 110327], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([110327, 32])
+
+
+point transformer layer x before weird operation:  torch.Size([184538, 32]) tensor([ 80000, 142818, 152374, 184538], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([184538, 32])
+
+
+point transformer layer x before weird operation:  torch.Size([46134, 64]) tensor([20000, 35704, 38093, 46134], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([46134, 64])
+
+
+point transformer layer x before weird operation:  torch.Size([46134, 64]) tensor([20000, 35704, 38093, 46134], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([46134, 64])
+
+
+point transformer layer x before weird operation:  torch.Size([11533, 128]) tensor([ 5000,  8926,  9523, 11533], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([11533, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([11533, 128]) tensor([ 5000,  8926,  9523, 11533], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([11533, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([11533, 128]) tensor([ 5000,  8926,  9523, 11533], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([11533, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([2882, 256]) tensor([1250, 2231, 2380, 2882], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2882, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([2882, 256]) tensor([1250, 2231, 2380, 2882], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2882, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([2882, 256]) tensor([1250, 2231, 2380, 2882], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2882, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([2882, 256]) tensor([1250, 2231, 2380, 2882], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2882, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([2882, 256]) tensor([1250, 2231, 2380, 2882], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2882, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([719, 512]) tensor([312, 557, 594, 719], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([719, 512])
+
+
+point transformer layer x before weird operation:  torch.Size([719, 512]) tensor([312, 557, 594, 719], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([719, 512])
+
+
+point transformer layer x before weird operation:  torch.Size([719, 512]) tensor([312, 557, 594, 719], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([719, 512])
+
+
+point transformer layer x before weird operation:  torch.Size([2882, 256]) tensor([1250, 2231, 2380, 2882], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2882, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([11533, 128]) tensor([ 5000,  8926,  9523, 11533], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([11533, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([46134, 64]) tensor([20000, 35704, 38093, 46134], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([46134, 64])
+
+
+point transformer layer x before weird operation:  torch.Size([184538, 32]) tensor([ 80000, 142818, 152374, 184538], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([184538, 32])
+
+
+point transformer layer x before weird operation:  torch.Size([157141, 32]) tensor([ 34581,  77164, 125622, 157141], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([157141, 32])
+
+
+point transformer layer x before weird operation:  torch.Size([39283, 64]) tensor([ 8645, 19290, 31404, 39283], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([39283, 64])
+
+
+point transformer layer x before weird operation:  torch.Size([39283, 64]) [2022-07-05 11:17:57,255 INFO train.py line 299 108439] Epoch: [1/100][3/1530] Data 0.001 (3.489) Batch 0.664 (4.870) Remain 206:59:15 Loss 2.1239 Accuracy 0.3582.
+[2022-07-05 11:17:57,940 INFO train.py line 299 108439] Epoch: [1/100][4/1530] Data 0.001 (2.617) Batch 0.685 (3.824) Remain 162:31:00 Loss 1.8572 Accuracy 0.4024.
+tensor([ 8645, 19290, 31404, 39283], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([39283, 64])
+
+
+point transformer layer x before weird operation:  torch.Size([9819, 128]) tensor([2161, 4822, 7850, 9819], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([9819, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([9819, 128]) tensor([2161, 4822, 7850, 9819], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([9819, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([9819, 128]) tensor([2161, 4822, 7850, 9819], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([9819, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([2454, 256]) tensor([ 540, 1205, 1962, 2454], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2454, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([2454, 256]) tensor([ 540, 1205, 1962, 2454], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2454, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([2454, 256]) tensor([ 540, 1205, 1962, 2454], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2454, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([2454, 256]) tensor([ 540, 1205, 1962, 2454], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2454, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([2454, 256]) tensor([ 540, 1205, 1962, 2454], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2454, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([613, 512]) tensor([135, 301, 490, 613], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([613, 512])
+
+
+point transformer layer x before weird operation:  torch.Size([613, 512]) tensor([135, 301, 490, 613], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([613, 512])
+
+
+point transformer layer x before weird operation:  torch.Size([613, 512]) tensor([135, 301, 490, 613], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([613, 512])
+
+
+point transformer layer x before weird operation:  torch.Size([2454, 256]) tensor([ 540, 1205, 1962, 2454], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2454, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([9819, 128]) tensor([2161, 4822, 7850, 9819], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([9819, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([39283, 64]) tensor([ 8645, 19290, 31404, 39283], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([39283, 64])
+
+
+point transformer layer x before weird operation:  torch.Size([157141, 32]) tensor([ 34581,  77164, 125622, 157141], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([157141, 32])
+
+
+point transformer layer x before weird operation:  torch.Size([137003, 32]) tensor([ 21179,  50225,  82135, 137003], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([137003, 32])
+
+
+point transformer layer x before weird operation:  torch.Size([34249, 64]) tensor([ 5294, 12555, 20532, 34249], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([34249, 64])
+
+
+point transformer layer x before weird operation:  torch.Size([34249, 64]) tensor([ 5294, 12555, 20532, 34249], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([34249, 64])
+
+
+point transformer layer x before weird operation:  torch.Size([8561, 128]) tensor([1323, 3138, 5132, 8561], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([8561, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([8561, 128]) tensor([1323, 3138, 5132, 8561], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([8561, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([8561, 128]) tensor([1323, 3138, 5132, 8561], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([8561, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([2138, 256]) tensor([ 330,  783, 1281, 2138], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2138, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([2138, 256]) tensor([ 330,  783, 1281, 2138], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2138, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([2138, 256]) tensor([ 330,  783, 1281, 2138], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2138, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([2138, 256]) tensor([ 330,  783, 1281, 2138], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2138, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([2138, 256]) tensor([ 330,  783, 1281, 2138], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2138, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([533, 512]) tensor([ 82, 195, 319, 533], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([533, 512])
+
+
+point transformer layer x before weird operation:  torch.Size([533, 512]) tensor([ 82, 195, 319, 533], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([533, 512])
+
+
+point transformer layer x before weird operation:  torch.Size([533, 512]) tensor([ 82, 195, 319, 533], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([533, 512])
+
+
+point transformer layer x before weird operation:  torch.Size([2138, 256]) tensor([ 330,  783, 1281, 2138], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([2138, 256])
+
+
+point transformer layer x before weird operation:  torch.Size([8561, 128]) tensor([1323, 3138, 5132, 8561], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([8561, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([34249, 64]) tensor([ 5294, 12555, 20532, 34249], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([34249, 64])
+
+
+point transformer layer x before weird operation:  torch.Size([137003, 32]) tensor([ 21179,  50225,  82135, 137003], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([137003, 32])
+
+
+point transformer layer x before weird operation:  torch.Size([275419, 32]) tensor([ 62859, 142859, 218498, 275419], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([275419, 32])
+
+
+point transformer layer x before weird operation:  torch.Size([68853, 64]) tensor([15714, 35714, 54623, 68853], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([68853, 64])
+
+
+point transformer layer x before weird operation:  torch.Size([68853, 64]) tensor([15714, 35714, 54623, 68853], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([68853, 64])
+
+
+point transformer layer x before weird operation:  torch.Size([17212, 128]) tensor([ 3928,  8928, 13655, 17212], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  torch.Size([17212, 128])
+
+
+point transformer layer x before weird operation:  torch.Size([17212, 128]) tensor([ 3928,  8928, 13655, 17212], device='cuda:0', dtype=torch.int32)
+
+
+point transformer layer x at the end:  [2022-07-05 11:17:59,314 INFO train.py line 299 108439] Epoch: [1/100][5/1530] Data 0.001 (2.094) Batch 1.375 (3.334) Remain 141:41:44 Loss 1.8685 Accuracy 0.4434.

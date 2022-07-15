@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "thesis"
+version = "0.1.0"
+description = "Convolution augmented linear geometric transformer for scene semantic segmentation"
+authors = ["Nazmican Calik <nazmican.calik@tum.de>"]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+torch = {url="https://download.pytorch.org/whl/cu111/torch-1.10.1%2Bcu111-cp39-cp39-linux_x86_64.whl"}
+pytorch-lightning = "^1.5.2"
+k3d = "^2.11.0"
+jupyter = "^1.0.0"
+numpy = "^1.21.4"
+easydict = "^1.9"
+plyfile = "^0.7.4"
+open3d = "^0.14.1"
+wandb = "^0.12.9"
+pytorch3d = {url = "https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py39_cu111_pyt1100/pytorch3d-0.6.1-cp39-cp39-linux_x86_64.whl"}
+iopath = "^0.1.9"
+pandas = "^1.4.0"
+tqdm = "^4.62.3"
+knn_cuda = {url="https://github.com/unlimblue/KNN_CUDA/releases/download/0.2/KNN_CUDA-0.2-py3-none-any.whl"}
+#pointnet2_ops = { path = "./pointnet2_ops_lib"}
+chainer = "^7.8.1"
+h5py = "^3.6.0"
+ray = {extras = ["tune"], version = "^1.11.0"}
+setuptools = "59.5.0, <60.0.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

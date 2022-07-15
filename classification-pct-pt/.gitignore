@@ -1,0 +1,10 @@
+.vscode
+__pycache__/
+modelnet40_normal_resampled/
+outputs/
+wandb/
+log/
+log_old/
+*.out
+data/
+*.pth

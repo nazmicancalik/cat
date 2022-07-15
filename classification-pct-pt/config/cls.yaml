@@ -1,0 +1,20 @@
+batch_size: 32
+epoch: 200
+learning_rate: 1e-3
+gpu: 1 # 0: 3090, 1: 2080
+lr_drop_milestones: [80, 90] 
+num_point: 1024
+optimizer: Adam
+weight_decay: 1e-4
+normal: False
+
+defaults:
+  - model: Hengshuang
+
+hydra:
+  run:
+    dir: log/cls/${model.name}
+
+  sweep:
+    dir: log/cls
+    subdir: ${model.name}

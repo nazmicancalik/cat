@@ -1,0 +1,26 @@
+wandb: Currently logged in as: nzmcnclk (cgat). Use `wandb login --relogin` to force relogin
+wandb: WARNING Path wandb/runs/wandb/ wasn't writable, using system temp directory.
+wandb: WARNING Path wandb/runs/wandb/ wasn't writable, using system temp directory
+wandb: wandb version 0.12.20 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.12.19
+wandb: Run data is saved locally in /tmp/wandb/run-20220701_135416-22070113541622
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run PT_S3DIS_SEG_wo_CONV_22070113541622
+wandb: ⭐️ View project at https://wandb.ai/cgat/CGAT%20Convolution%20Based%20Geometry%20Aware%20Transformer%20for%20Point%20Cloud%20Segmentation
+wandb: 🚀 View run at https://wandb.ai/cgat/CGAT%20Convolution%20Based%20Geometry%20Aware%20Transformer%20for%20Point%20Cloud%20Segmentation/runs/22070113541622
+Traceback (most recent call last):
+  File "/data/workspace/point-transformer/exp/s3dis/pointtransformer_repro/train.py", line 394, in <module>
+    main()
+  File "/data/workspace/point-transformer/exp/s3dis/pointtransformer_repro/train.py", line 92, in main
+    S3DIS(split='train', data_root=args.data_root, test_area=args.test_area)
+  File "/data/workspace/point-transformer/util/s3dis.py", line 25, in __init__
+    sa_create("shm://{}".format(item), data)
+  File "/data/workspace/point-transformer/util/data_util.py", line 11, in sa_create
+    x = SA.create(name, var.shape, dtype=var.dtype)
+FileExistsError: [Errno 17] File exists: 'shm://Area_6_hallway_2'
+wandb: Waiting for W&B process to finish... (failed 1). Press Control-C to abort syncing.
+wandb: - 0.001 MB of 0.001 MB uploaded (0.000 MB deduped)wandb: \ 0.001 MB of 0.001 MB uploaded (0.000 MB deduped)wandb: | 0.001 MB of 0.022 MB uploaded (0.000 MB deduped)wandb: / 0.001 MB of 0.022 MB uploaded (0.000 MB deduped)wandb: - 0.001 MB of 0.022 MB uploaded (0.000 MB deduped)wandb: \ 0.022 MB of 0.022 MB uploaded (0.000 MB deduped)wandb: | 0.022 MB of 0.022 MB uploaded (0.000 MB deduped)wandb: / 0.022 MB of 0.022 MB uploaded (0.000 MB deduped)wandb: - 0.022 MB of 0.022 MB uploaded (0.000 MB deduped)wandb: \ 0.022 MB of 0.022 MB uploaded (0.000 MB deduped)wandb: | 0.022 MB of 0.022 MB uploaded (0.000 MB deduped)wandb: / 0.022 MB of 0.022 MB uploaded (0.000 MB deduped)wandb:                                                                                
+wandb: Synced PT_S3DIS_SEG_wo_CONV_22070113541622: https://wandb.ai/cgat/CGAT%20Convolution%20Based%20Geometry%20Aware%20Transformer%20for%20Point%20Cloud%20Segmentation/runs/22070113541622
+wandb: Synced 6 W&B file(s), 0 media file(s), 0 artifact file(s) and 0 other file(s)
+wandb: Find logs at: /tmp/wandb/run-20220701_135416-22070113541622/logs

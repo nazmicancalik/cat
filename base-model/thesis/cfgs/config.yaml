@@ -1,0 +1,93 @@
+training:
+  gpus: [0] #0: 3090 24gb 1: 2080 8 gb
+  num_workers: 8
+  batch_size: 32
+  learning_rate: 0.005
+  max_epochs: 400
+  optimizer: sgd
+  min_lr: 0.0001
+  weight_decay: 0.005
+  max_steps: -1
+  fast_dev_run: False
+  log_every_n_steps: 50
+  lr_scheduler_step_size: 60 # decrease lr every 60 epochs
+  lr_scheduler_gamma: 0.5 # level of decrease in lr every 60 epochs
+  run_name: "vanilla transformer from pytorch with 6 encoder layers"
+  wandb_mode: "online" # {'online', 'disabled', 'run', 'dryrun', 'offline'}
+  tuning: False # Flag for hyperparameter tuning
+  hyperparameter_optimization_num_samples: 25
+  asha_grace_period: 30
+  asha_max_epochs: 100
+datasets:
+  scannet:
+    root_train: "data/scannet/scans"
+    root_val: "data/scannet/scans"
+    root_test: "data/scannet/scans_test"
+    splits_folder: "datasets/splits/scannet"
+    num_points: 256
+    num_classes: 41
+    input_channels: 3
+  shapenet:
+    version: 2
+    total_num_classes: 56
+    root: "data/shapenet/ShapeNetCore.v2"
+    splits_folder: "datasets/splits/shapenet"
+    num_points: 1024
+    synsets:
+  modelnet:
+    root: "data/modelnet40_normal_resampled/"
+    num_classes: 40
+    num_points: 1024 
+    process_data: True
+    use_uniform_sample: True
+    use_normals: False
+    create_val_split: False
+    val_percentage: 0.1
+    splits_folder: "datasets/splits/modelnet_untouched"
+
+modules:
+  DGCNN:
+    k: 25 # how many neighbors to consider
+    embed_dim: 1024 # points features
+    dropout: 0.5
+    num_in_points: 1024
+
+  transformer:
+    embed_dim: 128 # Use the map to get to 768
+    num_heads: 8
+    seq_len: 256
+    dim_head: None # Calculated automatically when None
+    num_knn_layer: 2 # currently hard coded
+    classifier_hidden_dim: 512
+    pos_encoder:
+      hidden_dim: 256
+    encoder:
+      depth: 4
+      attn_drop: 0.3
+      dropout: 0.5
+      k: 256
+      one_kv_head: False
+      share_kv: False
+      fc_hidden_ratio: 2 # x times more nodes in the hidden layer
+    decoder:
+      depth: 4
+      attn_drop: 0.2
+      dropout: 0.5
+      k: 256
+      one_kv_head: False
+      share_kv: False
+      fc_hidden_ratio: 4 # x times more nodes in the hidden layer
+    convolution:
+      enabled: True
+      kernel_size: 17 #{17,31} must be odd
+      expansion_factor: 2
+      dropout: 0.5
+  classifier:
+    dropout: 0.5 
+
+augmentation:
+  rotation_prob: 0.0
+  noise_prob: 0.7
+  noise_std: 0.1
+  scale_prob: 0.0
+  
